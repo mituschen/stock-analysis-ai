@@ -1,0 +1,21 @@
+prompt_id: prompt1_v1
+name: "Buy-side research analyst prompt"
+version: 1
+# The template_file points to an external .txt file containing the full prompt
+# specification.  The loader will read the file content at runtime.
+template_file: "Prompt1.txt"
+schema:
+  type: object
+  properties:
+    score:
+      type: integer
+      minimum: 1
+      maximum: 100
+    rating:
+      type: string
+      enum: ["BUY", "HOLD", "SELL"]
+    target_buy_price:
+      type: number
+    rationale:
+      type: string
+  required: [score, rating, target_buy_price, rationale]
