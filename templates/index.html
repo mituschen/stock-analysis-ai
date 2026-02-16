@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stock Analysis AI</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='style.css') }}"
+    />
+  </head>
+  <body>
+    <div class="container">
+      <h1>Stock Analysis AI</h1>
+      <form method="post" class="input-form">
+        <label for="ticker">Enter Stock Ticker:</label>
+        <input
+          type="text"
+          id="ticker"
+          name="ticker"
+          placeholder="e.g. AAPL"
+          required
+          value="{{ ticker or '' }}"
+        />
+        <button type="submit">Analyze</button>
+      </form>
+      {% if error %}
+      <div class="error">{{ error }}</div>
+      {% endif %}
+      {% if results %}
+      <div class="summary">
+        <h2>Results for {{ ticker }}</h2>
+        <p>
+          <strong>Average Score:</strong>
+          {{ summary.average_score | round(2) }}
+        </p>
+        <p>
+          <strong>Final Rating:</strong> {{ summary.final_rating }}
+        </p>
+        <p>
+          <strong>Final Target Buy Price:</strong>
+          {{ summary.final_target_price | round(2) }}
+        </p>
+      </div>
+      <table class="results-table">
+        <thead>
+          <tr>
+            <th>Prompt Name</th>
+            <th>Version</th>
+            <th>Score</th>
+            <th>Rating</th>
+            <th>Target Buy Price</th>
+            <th>Rationale</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in results %}
+          <tr>
+            <td>{{ item.prompt_name }}</td>
+            <td>{{ item.prompt_version }}</td>
+            <td>{{ item.score }}</td>
+            <td>{{ item.rating }}</td>
+            <td>{{ item.target_buy_price }}</td>
+            <td>{{ item.rationale }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+      {% endif %}
+    </div>
+  </body>
+</html>
